@@ -21,9 +21,9 @@
 # THE SOFTWARE.
 
 services:
-  sftp1:
+  sftp:
     image: atmoz/sftp
-    container_name: sftp1
+    container_name: sftp
     hostname: sftp
     stdin_open: true
     tty: true
@@ -31,34 +31,17 @@ services:
     privileged: true
     networks:
       sftp-network:
-        ipv4_address: 192.168.12.10
+        ipv4_address: 192.168.12.5
     volumes:
-        - ./${SFTP_FOLDER1}:/home/${USERNAME}/
-    ports:
-      - "${SFTP_PORT1}:22"
-    command: ${USERNAME}:${PASSWORD}:1001
-
-  sftp2:
-    image: atmoz/sftp
-    container_name: sftp2
-    hostname: sftp
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
-    privileged: true
-    networks:
-      sftp-network:
-        ipv4_address: 192.168.12.11
-    volumes:
-        - ./${SFTP_FOLDER2}:/home/${USERNAME}/
+        - ./${SFTP_FOLDER}:/home/${USERNAME}/
         - ./ssh:/home/${USERNAME}/.ssh/keys/
     ports:
-      - "${SFTP_PORT2}:22"
+      - "${SFTP_PORT}:22"
     command: ${USERNAME}:${PASSWORD}:1001
 
-  ftp1:
+  ftp:
     image: stilliard/pure-ftpd
-    container_name: ftp1
+    container_name: ftp
     hostname: ftp
     stdin_open: true
     tty: true
@@ -66,7 +49,7 @@ services:
     privileged: true
     networks:
       sftp-network:
-        ipv4_address: 192.168.12.12
+        ipv4_address: 192.168.12.6
     volumes:
         - ./${FTP_FOLDER}:/home/${USERNAME}/
     ports:
